@@ -1,5 +1,6 @@
 ﻿using Confluent.Kafka;
 using Otc.PubSub.Abstractions;
+using System.Text;
 
 namespace Otc.PubSub.Kafka
 {
@@ -22,6 +23,12 @@ namespace Otc.PubSub.Kafka
             : this(new TopicPartitionOffset(topicPartition, offset))
         {
 
+        }
+
+        public byte[] Serialize()
+        {
+            return Encoding.UTF8.GetBytes(
+                $"{TopicPartitionOffset.Topic}|{TopicPartitionOffset.Partition}|{TopicPartitionOffset.Offset}");
         }
     }
 }

@@ -14,6 +14,7 @@ namespace Microsoft.Extensions.DependencyInjection
             }
 
             services.AddScoped<IPubSub, KafkaPubSub>();
+            services.AddScoped<IMessageCoordinatesDeserializer, KafkaMessageCoordinatesDeserializer>();
 
             var configuration = new KafkaPubSubConfigurationLambda(services);
             config?.Invoke(configuration);

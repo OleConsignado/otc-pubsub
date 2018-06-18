@@ -4,6 +4,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Ole Consignado</Authors>
     <Product>Otc.PubSub</Product>
+    <PackageProjectUrl>https://github.com/OleConsignado/otc-pubsub</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/OleConsignado/otc-pubsub/blob/master/LICENSE</PackageLicenseUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
