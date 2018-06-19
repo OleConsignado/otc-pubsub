@@ -16,9 +16,9 @@ namespace Otc.PubSub.Kafka
 
         public KafkaPubSub(KafkaPubSubConfiguration configuration, ILoggerFactory loggerFactory)
         {
-            producer = new KafkaProducerWrapper(configuration, loggerFactory);
             this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
+            this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));        
+            producer = new KafkaProducerWrapper(configuration, loggerFactory);
         }
 
         public async Task PublishAsync(string topic, byte[] message)
