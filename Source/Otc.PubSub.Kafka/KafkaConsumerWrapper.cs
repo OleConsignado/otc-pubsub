@@ -90,20 +90,35 @@ namespace Otc.PubSub.Kafka
                 .GetResult();
         }
 
-        public IMessage ReadFromParticularCoordinates(KafkaMessageCoordinates kafkaMessageCoordinates)
+        public IMessage ReadFromParticularAddress(KafkaMessageAddress kafkaMessageAddress)
         {
             Message kafkaMessage = null;
-            _kafkaConsumer.Assign(kafkaMessageCoordinates.TopicPartitionOffset);
+            _kafkaConsumer.Assign(kafkaMessageAddress.GetTopicPartitionOffset());
+
             int i = 0;
 
-            while (i < 10 && !_kafkaConsumer.Consume(out kafkaMessage, 100))
+            while (i < 10 && (!_kafkaConsumer.Consume(out kafkaMessage, 100) || kafkaMessage == null))
             {
                 i++;
             }
 
-            if(kafkaMessage == null || kafkaMessage.Error)
+            if(kafkaMessage == null)
             {
-                throw new ReadException(kafkaMessage?.Error);
+                throw new ReadException("Read null message");
+            }
+
+            if(kafkaMessage.Error)
+            {
+                throw new ReadException(kafkaMessage.Error);
+            }
+
+            if (kafkaMessage.Topic != kafkaMessageAddress.Topic ||
+                kafkaMessage.Partition != kafkaMessageAddress.Partition ||
+                kafkaMessage.Offset != kafkaMessageAddress.Offset)
+            {
+                throw new ReadException($"Read message from wrong Topic/Partition/Offset. " +
+                    $"Expected {kafkaMessageAddress.Topic}/{kafkaMessageAddress.Partition}/{kafkaMessageAddress.Offset}, " +
+                    $"read {kafkaMessage.Topic}/{kafkaMessage.Partition}/{kafkaMessage.Offset}");
             }
 
             return new PubSubMessage(_kafkaConsumer, kafkaMessage, logger);
@@ -200,6 +215,8 @@ namespace Otc.PubSub.Kafka
         {
             if (!disposed)
             {
+                disposed = true;
+
                 logger.LogDebug($"{nameof(Dispose)}: Disposing ...");
 
                 KafkaConsumerEventsUnsubscribe();

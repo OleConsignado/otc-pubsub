@@ -8,7 +8,7 @@ namespace Otc.PubSub.Abstractions
         byte[] MessageBytes { get; }
         string Topic { get; }
         DateTimeOffset Timestamp { get; }
-        IMessageCoordinates MessageCoordinates { get; }
+        IMessageAddress MessageAddress { get; }
         
         /// <exception cref="Exceptions.CommitException" />
         Task CommitAsync();

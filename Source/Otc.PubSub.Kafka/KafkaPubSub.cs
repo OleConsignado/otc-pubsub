@@ -62,24 +62,24 @@ namespace Otc.PubSub.Kafka
             }
 
             producer.Dispose();
-            readFromParticularCoordinatesConsumer?.Dispose();
+            readFromParticularAddressConsumer?.Dispose();
         }
 
-        private KafkaConsumerWrapper readFromParticularCoordinatesConsumer = null;
+        private KafkaConsumerWrapper readFromParticularAddressConsumer = null;
 
-        public IMessage ReadFromParticularCoordinates(IMessageCoordinates messageCoordinates)
+        public IMessage ReadMessage(IMessageAddress messageMessage)
         {
-            if(!(messageCoordinates is KafkaMessageCoordinates))
+            if(!(messageMessage is KafkaMessageAddress))
             {
-                throw new InvalidOperationException($"Argument {nameof(messageCoordinates)} must be of type '{typeof(KafkaMessageCoordinates).FullName}'.");
+                throw new InvalidOperationException($"Argument {nameof(messageMessage)} must be of type '{typeof(KafkaMessageAddress).FullName}'.");
             }
 
-            if(readFromParticularCoordinatesConsumer == null)
+            if(readFromParticularAddressConsumer == null)
             {
-                readFromParticularCoordinatesConsumer = new KafkaConsumerWrapper(configuration, loggerFactory, $"PCG{Environment.CommandLine}{Environment.MachineName}");
+                readFromParticularAddressConsumer = new KafkaConsumerWrapper(configuration, loggerFactory, $"PCG{Environment.CommandLine}{Environment.MachineName}");
             }
 
-            return readFromParticularCoordinatesConsumer.ReadFromParticularCoordinates(messageCoordinates as KafkaMessageCoordinates);
+            return readFromParticularAddressConsumer.ReadFromParticularAddress(messageMessage as KafkaMessageAddress);
         }
     }
 }

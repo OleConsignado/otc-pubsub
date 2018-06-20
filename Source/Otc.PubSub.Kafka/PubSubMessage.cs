@@ -21,7 +21,7 @@ namespace Otc.PubSub.Kafka
             MessageBytes = kafkaMessage.Value;
             Topic = kafkaMessage.Topic;
             Timestamp = DateTimeOffset.FromUnixTimeMilliseconds(kafkaMessage.Timestamp.UnixTimestampMs);
-            MessageCoordinates = new KafkaMessageCoordinates(kafkaMessage.TopicPartitionOffset);
+            MessageAddress = new KafkaMessageAddress(kafkaMessage.TopicPartitionOffset);
         }
 
         public byte[] MessageBytes { get; }
@@ -30,7 +30,7 @@ namespace Otc.PubSub.Kafka
 
         public DateTimeOffset Timestamp { get; }
 
-        public IMessageCoordinates MessageCoordinates { get; }
+        public IMessageAddress MessageAddress { get; }
 
         public async Task CommitAsync()
         {

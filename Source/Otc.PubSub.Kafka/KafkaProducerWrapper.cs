@@ -100,18 +100,20 @@ namespace Otc.PubSub.Kafka
 
         public void Dispose()
         {
-            if (_kafkaProducer != null)
+            if (!disposed)
             {
+                disposed = true;
                 logger.LogDebug($"{nameof(Dispose)}: Disposing ...");
 
-                KafkaProducerEventsUnsubscribe();
-                _kafkaProducer.Dispose();
-                _kafkaProducer = null;
+                if (_kafkaProducer != null)
+                {
+                    KafkaProducerEventsUnsubscribe();
+                    _kafkaProducer.Dispose();
+                    _kafkaProducer = null;
+                }
 
                 logger.LogDebug($"{nameof(Dispose)}: Disposed.");
             }
-
-            disposed = true;
         }
     }
 }

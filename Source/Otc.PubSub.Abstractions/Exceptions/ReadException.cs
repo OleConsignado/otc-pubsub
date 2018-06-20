@@ -7,12 +7,18 @@
         { }
 
         public ReadException(object error) 
-            : this(error, "Error on ReadFromParticularCoordinatesException.")
+            : this(error, "Error while reading message.")
         {
         }
 
         public ReadException()
             : this(null)
+        {
+
+        }
+
+        public ReadException(string message)
+            : this(null, message)
         {
 
         }
