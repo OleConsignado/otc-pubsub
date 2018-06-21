@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Otc.PubSub.Abstractions;
 using Otc.PubSub.Abstractions.Exceptions;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Otc.PubSub.Kafka
@@ -21,7 +22,7 @@ namespace Otc.PubSub.Kafka
             MessageBytes = kafkaMessage.Value;
             Topic = kafkaMessage.Topic;
             Timestamp = DateTimeOffset.FromUnixTimeMilliseconds(kafkaMessage.Timestamp.UnixTimestampMs);
-            MessageAddress = new KafkaMessageAddress(kafkaMessage.TopicPartitionOffset);
+            MessageAddress = MessageAddressConverter.ToDictionary(kafkaMessage.TopicPartitionOffset);
         }
 
         public byte[] MessageBytes { get; }
@@ -30,7 +31,7 @@ namespace Otc.PubSub.Kafka
 
         public DateTimeOffset Timestamp { get; }
 
-        public IMessageAddress MessageAddress { get; }
+        public IDictionary<string, object> MessageAddress { get; }
 
         public async Task CommitAsync()
         {

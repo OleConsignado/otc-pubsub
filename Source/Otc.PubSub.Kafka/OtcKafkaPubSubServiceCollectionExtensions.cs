@@ -14,7 +14,6 @@ namespace Microsoft.Extensions.DependencyInjection
             }
 
             services.AddScoped<IPubSub, KafkaPubSub>();
-            services.AddScoped<IMessageAddressConverter, KafkaMessageAddressConverter>();
 
             var configuration = new KafkaPubSubConfigurationLambda(services);
             config?.Invoke(configuration);

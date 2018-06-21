@@ -67,19 +67,44 @@ namespace Otc.PubSub.Kafka
 
         private KafkaConsumerWrapper readFromParticularAddressConsumer = null;
 
-        public IMessage ReadMessage(IMessageAddress messageMessage)
+        [ThreadStatic]
+        private static volatile int threadId = -1;
+
+        private static object threadCounterLockPad = new object();
+        private static int threadCounter = 0;
+
+        private string ReadFromParticularAddressGroup
+        { 
+            get
+            {
+                if(threadId == -1)
+                {
+                    lock (threadCounterLockPad)
+                    {
+                        threadId = threadCounter++;
+                    }
+                }
+
+                var processId = ($"{Environment.MachineName}{Environment.CommandLine}" +
+                    $"{string.Join(",", Environment.GetCommandLineArgs())}").GetHashCode();
+
+                return $"PubSubRPAG_{processId}_{threadId}";
+            }
+        }
+
+        public IMessage ReadMessage(IDictionary<string, object> messageAddress)
         {
-            if(!(messageMessage is KafkaMessageAddress))
+            if (messageAddress == null)
             {
-                throw new InvalidOperationException($"Argument {nameof(messageMessage)} must be of type '{typeof(KafkaMessageAddress).FullName}'.");
+                throw new ArgumentNullException(nameof(messageAddress));
             }
 
-            if(readFromParticularAddressConsumer == null)
+            if (readFromParticularAddressConsumer == null)
             {
-                readFromParticularAddressConsumer = new KafkaConsumerWrapper(configuration, loggerFactory, $"PCG{Environment.CommandLine}{Environment.MachineName}");
+                readFromParticularAddressConsumer = new KafkaConsumerWrapper(configuration, loggerFactory, ReadFromParticularAddressGroup);
             }
 
-            return readFromParticularAddressConsumer.ReadFromParticularAddress(messageMessage as KafkaMessageAddress);
+            return readFromParticularAddressConsumer.ReadFromParticularAddress(messageAddress);
         }
     }
 }

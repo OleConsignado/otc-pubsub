@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -27,6 +28,6 @@ namespace Otc.PubSub.Abstractions
 
         /// <exception cref="InvalidOperationException">Concrete type of messageCoordinates is not compatible with this particular PubSub implementation.</exception>
         /// <exception cref="Exceptions.ReadException" />
-        IMessage ReadMessage(IMessageAddress messageAddress);
+        IMessage ReadMessage(IDictionary<string, object> messageAddress);
     }
 }

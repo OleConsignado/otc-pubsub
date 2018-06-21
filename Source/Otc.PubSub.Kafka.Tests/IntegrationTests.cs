@@ -1,4 +1,3 @@
-using Confluent.Kafka;
 using Microsoft.Extensions.DependencyInjection;
 using Otc.PubSub.Abstractions;
 using Otc.PubSub.Kafka;
@@ -58,7 +57,7 @@ namespace Otc_PubSub.Kafka.Tests
 
             await Assert.ThrowsAsync<OperationCanceledException>(async () =>
             {
-                await pubSub.SubscribeAsync(new MessageHandler(), "testxy", cts.Token, "teste");
+                await pubSub.SubscribeAsync(new MessageHandler(), "testxyx", cts.Token, "teste");
             });
 
         }
@@ -74,7 +73,7 @@ namespace Otc_PubSub.Kafka.Tests
         public void Test_ReadFromParticularCoordinates()
         {
             var pubSub = serviceProvider.GetService<IPubSub>();
-            var message = pubSub.ReadMessage(new KafkaMessageAddress("teste", 0, 0));
+            var message = pubSub.ReadMessage(MessageAddressConverter.BuildDictionary("teste", 0, 0));
         }
     }
 }

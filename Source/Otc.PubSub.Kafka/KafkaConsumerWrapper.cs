@@ -90,21 +90,22 @@ namespace Otc.PubSub.Kafka
                 .GetResult();
         }
 
-        public IMessage ReadFromParticularAddress(KafkaMessageAddress kafkaMessageAddress)
+        public IMessage ReadFromParticularAddress(IDictionary<string, object> messageAddress)
         {
             Message kafkaMessage = null;
-            _kafkaConsumer.Assign(kafkaMessageAddress.GetTopicPartitionOffset());
+            _kafkaConsumer.Assign(MessageAddressConverter.ToTopicPartitionOffset(messageAddress));
 
             int i = 0;
 
-            while (i < 10 && (!_kafkaConsumer.Consume(out kafkaMessage, 100) || kafkaMessage == null))
+            while (i < 50 && kafkaMessage == null)
             {
+                _kafkaConsumer.Consume(out kafkaMessage, 100);
                 i++;
             }
 
             if(kafkaMessage == null)
             {
-                throw new ReadException("Read null message");
+                throw new ReadException($"Read null message (tried {i} times) :/");
             }
 
             if(kafkaMessage.Error)
@@ -112,12 +113,12 @@ namespace Otc.PubSub.Kafka
                 throw new ReadException(kafkaMessage.Error);
             }
 
-            if (kafkaMessage.Topic != kafkaMessageAddress.Topic ||
-                kafkaMessage.Partition != kafkaMessageAddress.Partition ||
-                kafkaMessage.Offset != kafkaMessageAddress.Offset)
+            if (kafkaMessage.Topic != messageAddress["Topic"] as string ||
+                kafkaMessage.Partition != (int)messageAddress["Partition"] ||
+                kafkaMessage.Offset != (long)messageAddress["Offset"])
             {
                 throw new ReadException($"Read message from wrong Topic/Partition/Offset. " +
-                    $"Expected {kafkaMessageAddress.Topic}/{kafkaMessageAddress.Partition}/{kafkaMessageAddress.Offset}, " +
+                    $"Expected {messageAddress["Topic"]}/{messageAddress["Partition"]}/{messageAddress["Offset"]}, " +
                     $"read {kafkaMessage.Topic}/{kafkaMessage.Partition}/{kafkaMessage.Offset}");
             }
 
