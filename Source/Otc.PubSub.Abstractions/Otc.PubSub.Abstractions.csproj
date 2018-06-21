@@ -6,7 +6,7 @@
     <Product>Otc.PubSub</Product>
     <PackageProjectUrl>https://github.com/OleConsignado/otc-pubsub</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/OleConsignado/otc-pubsub/blob/master/LICENSE</PackageLicenseUrl>
-    <Version>2.0.1</Version>
+    <Version>2.0.2</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
