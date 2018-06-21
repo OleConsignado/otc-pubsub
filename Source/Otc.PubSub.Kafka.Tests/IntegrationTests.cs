@@ -73,7 +73,7 @@ namespace Otc_PubSub.Kafka.Tests
         public void Test_ReadFromParticularCoordinates()
         {
             var pubSub = serviceProvider.GetService<IPubSub>();
-            var message = pubSub.ReadMessage(MessageAddressConverter.BuildDictionary("teste", 0, 0));
+            var message = pubSub.ReadSingle(MessageAddressConverter.BuildDictionary("teste", 0, 0));
         }
     }
 }

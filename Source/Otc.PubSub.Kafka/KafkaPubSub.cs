@@ -92,7 +92,7 @@ namespace Otc.PubSub.Kafka
             }
         }
 
-        public IMessage ReadMessage(IDictionary<string, object> messageAddress)
+        public IMessage ReadSingle(IDictionary<string, object> messageAddress)
         {
             if (messageAddress == null)
             {

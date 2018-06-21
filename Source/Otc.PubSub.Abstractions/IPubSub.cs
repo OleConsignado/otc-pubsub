@@ -28,6 +28,7 @@ namespace Otc.PubSub.Abstractions
 
         /// <exception cref="InvalidOperationException">Concrete type of messageCoordinates is not compatible with this particular PubSub implementation.</exception>
         /// <exception cref="Exceptions.ReadException" />
-        IMessage ReadMessage(IDictionary<string, object> messageAddress);
+        IMessage ReadSingle(IDictionary<string, object> messageAddress);
+
     }
 }
