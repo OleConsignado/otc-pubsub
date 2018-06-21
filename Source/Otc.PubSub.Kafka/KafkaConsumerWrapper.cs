@@ -113,12 +113,15 @@ namespace Otc.PubSub.Kafka
                 throw new ReadException(kafkaMessage.Error);
             }
 
-            if (kafkaMessage.Topic != messageAddress["Topic"] as string ||
-                kafkaMessage.Partition != (int)messageAddress["Partition"] ||
-                kafkaMessage.Offset != (long)messageAddress["Offset"])
+            string providedTopic = Convert.ToString(messageAddress["Topic"]);
+            int providedPartition = Convert.ToInt32(messageAddress["Partition"]);
+            long providedOffset = Convert.ToInt64(messageAddress["Offset"]);
+
+            if (kafkaMessage.Topic != providedTopic || kafkaMessage.Partition != providedPartition ||
+                kafkaMessage.Offset.Value != providedOffset)
             {
                 throw new ReadException($"Read message from wrong Topic/Partition/Offset. " +
-                    $"Expected {messageAddress["Topic"]}/{messageAddress["Partition"]}/{messageAddress["Offset"]}, " +
+                    $"Expected {providedTopic}/{providedPartition}/{providedOffset}, " +
                     $"read {kafkaMessage.Topic}/{kafkaMessage.Partition}/{kafkaMessage.Offset}");
             }
 
