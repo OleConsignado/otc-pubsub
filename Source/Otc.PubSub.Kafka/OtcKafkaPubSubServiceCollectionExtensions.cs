@@ -13,10 +13,15 @@ namespace Microsoft.Extensions.DependencyInjection
                 throw new ArgumentNullException(nameof(services));
             }
 
+            if (config == null)
+            {
+                throw new ArgumentNullException(nameof(config));
+            }
+
             services.AddScoped<IPubSub, KafkaPubSub>();
 
             var configuration = new KafkaPubSubConfigurationLambda(services);
-            config?.Invoke(configuration);
+            config.Invoke(configuration);
 
             return services;
         }

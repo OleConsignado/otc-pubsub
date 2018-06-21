@@ -18,7 +18,7 @@ namespace Otc.PubSub.Kafka
             {
                 { "Topic", topicPartitionOffset.Topic },
                 { "Partition", topicPartitionOffset.Partition },
-                { "Offset", topicPartitionOffset.Offset }
+                { "Offset", topicPartitionOffset.Offset.Value }
             };
         }
 
@@ -60,7 +60,7 @@ namespace Otc.PubSub.Kafka
                 int partition = Convert.ToInt32(messageAddress["Partition"]);
                 long offset = Convert.ToInt64(messageAddress["Offset"]);
 
-                return new TopicPartitionOffset(topic, partition, offset);
+                return new TopicPartitionOffset(topic, partition, new Offset(offset));
             }
             catch (Exception e) when (e is FormatException || e is OverflowException)
             {
