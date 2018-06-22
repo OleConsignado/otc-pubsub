@@ -2,7 +2,7 @@
 
 set -e
 
-CICD_COMMON_VERSION="6edeac72c507ee940e90eadc894bf82bd50088e0"
+CICD_COMMON_VERSION="v2.2"
 
 export CLASS_LIBRARY_PROJ_DIR=Source/Otc.PubSub.Abstractions
 export TEST_PROJ_DIR=Source/Otc.PubSub.Kafka.Tests
