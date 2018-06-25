@@ -26,16 +26,16 @@ namespace Otc.PubSub.Kafka
             await producer.PublishAsync(topic, message);
         }
 
-        public Task SubscribeAsync(IMessageHandler messageHandler, string group, CancellationToken cancellationToken, params string[] topics)
+        public Task SubscribeAsync(IMessageHandler messageHandler, string groupId, CancellationToken cancellationToken, params string[] topics)
         {
             if (messageHandler == null)
             {
                 throw new ArgumentNullException(nameof(messageHandler));
             }
 
-            if (group == null)
+            if (groupId == null)
             {
-                throw new ArgumentNullException(nameof(group));
+                throw new ArgumentNullException(nameof(groupId));
             }
 
             if (topics == null)
@@ -48,7 +48,7 @@ namespace Otc.PubSub.Kafka
                 throw new ArgumentException("At least one topic is necessary to subscribe.", nameof(topics));
             }
 
-            var kafkaConsumerWrapper = new KafkaConsumerWrapper(configuration, loggerFactory, group);
+            var kafkaConsumerWrapper = new KafkaConsumerWrapper(configuration, loggerFactory, groupId);
             consumers.Add(kafkaConsumerWrapper);
 
             return Task.Run(() => kafkaConsumerWrapper.SubscribeAndStartPoll(messageHandler, topics, cancellationToken));
@@ -68,7 +68,7 @@ namespace Otc.PubSub.Kafka
         private KafkaConsumerWrapper readFromParticularAddressConsumer = null;
 
         [ThreadStatic]
-        private static volatile int threadId = -1;
+        private static int threadId = -1;
 
         private static object threadCounterLockPad = new object();
         private static int threadCounter = 0;
