@@ -1,9 +1,20 @@
 # Otc.PubSub
 [![Build Status](https://travis-ci.org/OleConsignado/otc-pubsub.svg?branch=master)](https://travis-ci.org/OleConsignado/otc-pubsub)
 
-Otc.PubSub goal is to abstract complex aspects of Publish/Subscribe systems by providing a comprehensive and easy to use API. 
+Otc.PubSub goal is to abstract complex aspects of Publish/Subscribe systems by providing a comprehensive and easy to use API for .NET Standards 2.0. 
+
+Currently it supports only [Apache Kafka](https://kafka.apache.org/) as Publish/Subscribe backend. `Otc.PubSub.Kafka` was built on top of [Confluent's .NET Client for Apache Kafka](https://github.com/confluentinc/confluent-kafka-dotnet) and provides Kafka implementation.
 
 ## Quickstart
+
+### Installation
+
+Recommended to install it from NuGet. It's spplited in two packages:
+
+* [Otc.PubSub.Abstractions](https://www.nuget.org/packages/Otc.PubSub.Abstractions) - Only abstractions (interfaces, exception types, all you need to make reference to use it, except implementation)*
+* [Otc.PubSub.Kafka](https://www.nuget.org/packages/Otc.PubSub.Kafka) - Apache Kafka implementation*
+
+*Curretly only pre-release packages are available
 
 ### Configuration
 
