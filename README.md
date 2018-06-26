@@ -7,7 +7,7 @@ Otc.PubSub goal is to abstract complex aspects of Publish/Subscribe systems by p
 
 ### Configuration
 
-At startup, add IPubSub to your service collection by calling `AddKafkaPubSub` extension method for `IServiceCollection` (AddKafkaPubSub resides at `Otc.PubSub.Kafka` assembly):
+At startup, add `IPubSub` to your service collection by calling `AddKafkaPubSub` extension method for `IServiceCollection` (`AddKafkaPubSub` lives at `Otc.PubSub.Kafka` assembly):
 
 ```cs
 services.AddKafkaPubSub(config => 
@@ -17,14 +17,14 @@ services.AddKafkaPubSub(config =>
 
 ```
 
-`AddKafkaPubSub` will register KafkaPubSub implementation (from `Otc.PubSub.Kafka` assembly) for IPubSub interface (from `Otc.PubSub.Abstractions` assembly) as scoped lifetime.
+`AddKafkaPubSub` will register `KafkaPubSub` implementation (from `Otc.PubSub.Kafka` assembly) for `IPubSub` interface (from `Otc.PubSub.Abstractions` assembly) as scoped lifetime.
 
 ### Usage
 
 #### Publish to a topic
 
 ```cs
-IPubSub pubSub = ... // get pubSub from service provider (using dependency injection for example)
+IPubSub pubSub = ... // get pubSub from service provider (using dependency injection)
 
 string message = "Hello world!";
 byte[] messageBytes = Encoding.UTF8.GetBytes(message);
@@ -34,7 +34,7 @@ await pubSub.PublishAsync("TopicName", messageBytes);
 ```
 #### Subscribe to topic(s)
 
-Implement the interface IMessageHandler as your needs:
+Implement the interface `IMessageHandler` as your needs:
 
 ```cs
 class MessageHandler : IMessageHandler
