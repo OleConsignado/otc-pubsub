@@ -11,10 +11,10 @@ Currently it supports only [Apache Kafka](https://kafka.apache.org/) as Publish/
 
 Recommended to install it from NuGet. It's spplited into two packages:
 
-* [Otc.PubSub.Abstractions](https://www.nuget.org/packages/Otc.PubSub.Abstractions) - Interfaces, exception types, all you need to use it, except implementation)*
-* [Otc.PubSub.Kafka](https://www.nuget.org/packages/Otc.PubSub.Kafka) - Apache Kafka implementation*
+* [Otc.PubSub.Abstractions](https://www.nuget.org/packages/Otc.PubSub.Abstractions) - Interfaces, exception types, all you need to use it, except implementation;
+* [Otc.PubSub.Kafka](https://www.nuget.org/packages/Otc.PubSub.Kafka) - Apache Kafka implementation.
 
-*Curretly only pre-release packages are available
+** *Curretly only pre-release packages are available*
 
 ### Configuration
 
