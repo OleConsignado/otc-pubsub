@@ -20,11 +20,9 @@ namespace Otc.PubSub.Abstractions
         /// </summary>
         /// <param name="messageHandler" />
         /// <param name="groupId" />
-        /// <param name="cancellationToken" />
         /// <param name="topics" />
         /// <exception cref="ArgumentException">If topic is a empty array.</exception>
-        /// <exception cref="OperationCanceledException">When cancellationToken cancelled.</exception>
-        Task SubscribeAsync(IMessageHandler messageHandler, string groupId, CancellationToken cancellationToken, params string[] topics);
+        ISubscription Subscribe(IMessageHandler messageHandler, string groupId, params string[] topics);
 
         /// <exception cref="InvalidOperationException">Concrete type of messageCoordinates is not compatible with this particular PubSub implementation.</exception>
         /// <exception cref="Exceptions.ReadException" />

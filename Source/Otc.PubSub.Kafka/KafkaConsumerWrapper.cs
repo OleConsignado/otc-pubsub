@@ -29,6 +29,8 @@ namespace Otc.PubSub.Kafka
 
         private IMessageHandler messageHandler = null;
 
+        public DateTimeOffset RealodAt { get; set; } = DateTimeOffset.MaxValue;
+
         public void SubscribeAndStartPoll(IMessageHandler messageHandler, string[] topics, CancellationToken cancellationToken)
         {
             CheckDisposed();
@@ -57,6 +59,12 @@ namespace Otc.PubSub.Kafka
             while (!cancellationToken.IsCancellationRequested)
             {
                 _kafkaConsumer.Poll(500);
+
+                if(RealodAt >= DateTimeOffset.Now)
+                {
+                    _kafkaConsumer.Unsubscribe();
+                    _kafkaConsumer.Subscribe(topics);
+                }
             }
 
             logger.LogDebug($"{nameof(SubscribeAndStartPoll)}: OperationCancelled, disposing and throwing an OperationCanceledException.");

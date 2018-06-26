@@ -26,7 +26,7 @@ namespace Otc.PubSub.Kafka
             await producer.PublishAsync(topic, message);
         }
 
-        public Task SubscribeAsync(IMessageHandler messageHandler, string groupId, CancellationToken cancellationToken, params string[] topics)
+        public ISubscription Subscribe(IMessageHandler messageHandler, string groupId, params string[] topics)
         {
             if (messageHandler == null)
             {
@@ -51,7 +51,9 @@ namespace Otc.PubSub.Kafka
             var kafkaConsumerWrapper = new KafkaConsumerWrapper(configuration, loggerFactory, groupId);
             consumers.Add(kafkaConsumerWrapper);
 
-            return Task.Run(() => kafkaConsumerWrapper.SubscribeAndStartPoll(messageHandler, topics, cancellationToken));
+            return new KafkaSubscription(kafkaConsumerWrapper, messageHandler, groupId, topics);
+
+            //return Task.Run(() => kafkaConsumerWrapper.SubscribeAndStartPoll(messageHandler, topics, cancellationToken));
         }
 
         public void Dispose()

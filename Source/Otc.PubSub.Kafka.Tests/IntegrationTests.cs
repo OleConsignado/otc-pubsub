@@ -57,7 +57,9 @@ namespace Otc_PubSub.Kafka.Tests
 
             await Assert.ThrowsAsync<OperationCanceledException>(async () =>
             {
-                await pubSub.SubscribeAsync(new MessageHandler(), "testxyx", cts.Token, "teste");
+                var subscription = pubSub.Subscribe(new MessageHandler(), "testxyx", "teste");
+
+                await subscription.StartAsync(cts.Token);
             });
 
         }
