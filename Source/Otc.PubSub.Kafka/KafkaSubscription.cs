@@ -22,9 +22,9 @@ namespace Otc.PubSub.Kafka
 
         public void ReloadAt(DateTimeOffset time)
         {
-            if(time < kafkaConsumerWrapper.RealodAt)
+            if(time < kafkaConsumerWrapper.ReloadAt)
             {
-                kafkaConsumerWrapper.RealodAt = time;
+                kafkaConsumerWrapper.ReloadAt = time;
             }
         }
 

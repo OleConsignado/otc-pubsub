@@ -29,7 +29,17 @@ namespace Otc.PubSub.Kafka
 
         private IMessageHandler messageHandler = null;
 
-        public DateTimeOffset RealodAt { get; set; } = DateTimeOffset.MaxValue;
+        private DateTimeOffset _reloadAt = DateTimeOffset.MaxValue;
+
+        public DateTimeOffset ReloadAt
+        {
+            get => _reloadAt;
+            set
+            {
+                _reloadAt = value;
+                logger.LogDebug($"{nameof(ReloadAt)}_set: Setted ReloadAt to '{{ReloadAt}}'", _reloadAt);
+            }
+        }
 
         public void SubscribeAndStartPoll(IMessageHandler messageHandler, string[] topics, CancellationToken cancellationToken)
         {
@@ -60,8 +70,12 @@ namespace Otc.PubSub.Kafka
             {
                 _kafkaConsumer.Poll(100);
 
-                if(RealodAt <= DateTimeOffset.Now)
+                if(ReloadAt <= DateTimeOffset.Now)
                 {
+                    logger.LogInformation($"{nameof(SubscribeAndStartPoll)}: Performing Unsubscribe/Subscribe due to " +
+                        $"ReloadAt <= DateTimeOffset.Now. ReloadAt: {{ReloadAt}}; DateTimeOffset.Now: {{DateTimeOffset.Now}}",
+                        ReloadAt, DateTimeOffset.Now);
+
                     _kafkaConsumer.Unsubscribe();
                     _kafkaConsumer.Subscribe(topics);
                 }
