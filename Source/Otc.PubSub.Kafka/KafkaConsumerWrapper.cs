@@ -58,9 +58,9 @@ namespace Otc.PubSub.Kafka
 
             while (!cancellationToken.IsCancellationRequested)
             {
-                _kafkaConsumer.Poll(500);
+                _kafkaConsumer.Poll(100);
 
-                if(RealodAt >= DateTimeOffset.Now)
+                if(RealodAt <= DateTimeOffset.Now)
                 {
                     _kafkaConsumer.Unsubscribe();
                     _kafkaConsumer.Subscribe(topics);

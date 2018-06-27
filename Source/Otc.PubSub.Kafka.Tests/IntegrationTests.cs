@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Otc.PubSub.Abstractions;
 using Otc.PubSub.Kafka;
 using System;
+using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,9 +38,15 @@ namespace Otc_PubSub.Kafka.Tests
                 throw new NotImplementedException();
             }
 
+            Stopwatch stopwatch = new Stopwatch();
+
             public async Task OnMessageAsync(IMessage message)
             {
+                if (!stopwatch.IsRunning)
+                    stopwatch.Start();
+                Debug.WriteLine(Encoding.UTF8.GetString(message.MessageBytes));
                 await message.CommitAsync();
+                Debug.WriteLine($"ElapsedMilliseconds: {stopwatch.ElapsedMilliseconds}");
             }
         }
 
@@ -51,13 +58,13 @@ namespace Otc_PubSub.Kafka.Tests
 
             var t = Task.Run(async () =>
             {
-                await Task.Delay(10000);
+                await Task.Delay(50000);
                 cts.Cancel();
             });
 
             await Assert.ThrowsAsync<OperationCanceledException>(async () =>
             {
-                var subscription = pubSub.Subscribe(new MessageHandler(), "testxyx", "teste");
+                var subscription = pubSub.Subscribe(new MessageHandler(), "tssssdsssxyx", "teste");
 
                 await subscription.StartAsync(cts.Token);
             });

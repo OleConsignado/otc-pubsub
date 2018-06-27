@@ -16,7 +16,7 @@ namespace Otc.PubSub.Abstractions
         /// <para>
         /// The moment to perform unsbscribe then subscribe operation. If you supply a later time compared to a previous suplied time, 
         /// it will be ignored. If you supply a early time in respect to previous one, it will be replaced.
-        /// To cancel reload, provide a past time.
+        /// If a past time is provided, will reload immediately.
         /// </para>
         /// </param>
         void ReloadAt(DateTimeOffset time);
