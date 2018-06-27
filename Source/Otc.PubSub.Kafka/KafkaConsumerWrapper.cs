@@ -76,6 +76,8 @@ namespace Otc.PubSub.Kafka
                         $"ReloadAt <= DateTimeOffset.Now. ReloadAt: {{ReloadAt}}; DateTimeOffset.Now: {{DateTimeOffset.Now}}",
                         ReloadAt, DateTimeOffset.Now);
 
+                    ReloadAt = DateTimeOffset.MaxValue;
+
                     _kafkaConsumer.Unsubscribe();
                     _kafkaConsumer.Subscribe(topics);
                 }
