@@ -6,7 +6,15 @@
     <Product>Otc.PubSub</Product>
     <PackageProjectUrl>https://github.com/OleConsignado/otc-pubsub</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/OleConsignado/otc-pubsub/blob/master/LICENSE</PackageLicenseUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>bin\Debug\netstandard2.0\Otc.PubSub.Abstractions.xml</DocumentationFile>
