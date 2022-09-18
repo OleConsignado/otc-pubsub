@@ -22,7 +22,8 @@ namespace Otc_PubSub.Kafka.Tests
             {
                 config.Configure(new KafkaPubSubConfiguration()
                 {
-                    BrokerList = "192.168.145.100"
+                    BrokerList = "192.168.145.100",
+                    AutoOffsetReset = "latest"
                 });
             });
 
