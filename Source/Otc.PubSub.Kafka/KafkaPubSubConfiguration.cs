@@ -6,5 +6,7 @@ namespace Otc.PubSub.Kafka
     {
         [Required]
         public string BrokerList { get; set; }
+        [Required]
+        public string AutoOffsetReset { get; set; } = "latest";
     }
 }

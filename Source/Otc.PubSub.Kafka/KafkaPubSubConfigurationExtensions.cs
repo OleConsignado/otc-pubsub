@@ -19,7 +19,7 @@ namespace Otc.PubSub.Kafka
                 { "group.id", groupId },
                 { "enable.auto.commit", false },
                 { "bootstrap.servers", configuration.BrokerList },
-                { "auto.offset.reset", "earliest" }
+                { "auto.offset.reset", configuration.AutoOffsetReset }
             };
         }
     }
